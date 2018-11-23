@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <script>
+    var score = 0;
+    var RMList = [];
+    function RM(name, experience, age){
+        this.name = name,
+        this.experience = experience,
+        this.age = age,
+        this.score = 0
+    }
+
+    RMList.push(new RM("Bob", 2, 25));
+    RMList.push(new RM("Joe", 6, 40));
+
+    function resetVars(){
+        score = 0;
+        for(let i = 0; i < RMList.length; i++){
+            RMList[i].score = 0;
+        }
+    }
+
+    function calcBestRM(){
+        resetVars();
+        var exp = document.getElementById("exp").value;
+        
+        for(let i = 0; i < RMList.length; i++){
+            if(RMList[i].experience >= exp){
+                RMList[i].score += 10;
+            }
+        }
+
+        var age = document.getElementById("age").value;
+        
+        for(let i = 0; i < RMList.length; i++){
+            if(RMList[i].age >= age){
+                RMList[i].score += 10;
+            }
+        }
+        
+        RMList.sort(function(a,b) {return b.score - a.score});
+        return RMList[0]["name"] + " " + RMList[0]["score"] + " " + RMList[1]["name"] + " " + RMList[1]["score"];
+    }
+
+    function showBestRM(){
+        document.getElementById("demo").innerHTML = calcBestRM();
+    }
+
+    function showExp(){
+        document.getElementById("expDisp").innerHTML = document.getElementById("exp").value;
+    }
+
+     function showAge(){
+        document.getElementById("ageDisp").innerHTML = document.getElementById("age").value;
+    }
+    </script>
+</head>
+
+<body onload="showExp(); showAge()">
+    Experience Level Significance:<br>
+    <input type="range" id="exp" name="points" min="0" max="10" onmousemove="showExp()">
+    <span id="expDisp"></span>
+    <br>
+    Age:<br>
+    <input type="range" id="age" name="points" min="20" max="60" onmousemove="showAge()">
+    <span id="ageDisp"></span>
+    <br>
+    <button type="button" onclick="showBestRM()">Display the best RM Match</button>
+    <br>
+    <span id="demo" ></span>
+</body>
+
+</html>
